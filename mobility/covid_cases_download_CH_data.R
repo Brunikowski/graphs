@@ -6,7 +6,7 @@ library(data.table)
 library(dplyr)
 # mynewdat<-read.table('https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv',
 #                      sep=",")
-mynewdat<-fread('https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv')
+mynewdat<-read.table('https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv', sep=",")
 
 mynewdat$weekdays<-format(mynewdat$date,"%A")
 mynewdat$daytype<-mynewdat$weekdays
