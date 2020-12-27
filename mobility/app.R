@@ -6,7 +6,7 @@ library(ggplot2)
 library(dplyr)
 
 source("covid_cases_download_CH_data.R")
-df<-fread("google_mobility_change_CH.csv")
+df<-read.table("google_mobility_change_CH.csv",sep=",")
 # df<-df[which(df$iso_3166_2_code==""),]
 df$kanton<-gsub("CH-","", df$iso_3166_2_code)
 df$kanton[which(df$kanton=="")]<-"CH"
@@ -19,7 +19,7 @@ gp<-ggplot(data=df, aes(x=date,
     facet_grid(rows = vars(country_region_code))+
     ggtitle(max(df$date, na.rm=T))
 
-coviddf<-fread("cases_CH.csv")
+coviddf<-read.table("cases_CH.csv", sep=",")
 # coviddf$geoRegion<-gsub("CHFL","FL",coviddf$geoRegion)
 
 
