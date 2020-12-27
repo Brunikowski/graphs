@@ -19,16 +19,6 @@ gp<-ggplot(data=df, aes(x=date,
     facet_grid(rows = vars(country_region_code))+
     ggtitle(max(df$date, na.rm=T))
 
-# gpmobil1<-gp+geom_point(aes(y=workplaces_percent_change_from_baseline))
-# gpmobil2<-gp+geom_point(aes(y=retail_and_recreation_percent_change_from_baseline))
-# gpmobil3<-gp+geom_point(aes(y=grocery_and_pharmacy_percent_change_from_baseline))
-# 
-# gpmobil4<-gp+geom_point(aes(y=parks_percent_change_from_baseline))
-# gpmobil5<-gp+geom_point(aes(y=transit_stations_percent_change_from_baseline))
-# gpmobil6<-gp+geom_point(aes(y=residential_percent_change_from_baseline))
-
-# 
-
 coviddf<-fread("cases_CH.csv")
 # coviddf$geoRegion<-gsub("CHFL","FL",coviddf$geoRegion)
 
@@ -64,7 +54,7 @@ ui <- fluidPage(
                         "kanton",
                         choices=levels(as.factor(coviddf$geoRegion)),
                         multiple = F,
-                        # selected = c("CH"),
+                        selected = c("CH"),
                         selectize = F),
             checkboxInput("inzidenz", "inzidenz?",value = F)
         ),
