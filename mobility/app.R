@@ -66,7 +66,7 @@ ui <- fluidPage(
                         "kanton",
                         choices=levels(as.factor(coviddf$geoRegion)),
                         multiple = F,
-                        # selected = c("CH"),
+                        selected = c("CH"),
                         selectize = F),
             checkboxInput("inzidenz", "inzidenz?",value = F)
         ),
