@@ -6,20 +6,22 @@ library(data.table)
 library(dplyr)
 # mynewdat<-read.table('https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv',
 #                      sep=",")
-mynewdat<-read.table('https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv', sep=",", header=T)
+mynewdat<-read.table('https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv',sep = ",", header=T)
 
+# mynewdat$weekdays<-format(mynewdat$date,"%A")
 mynewdat$weekdays<-weekdays(as.Date(mynewdat$date))
+
 mynewdat$daytype<-mynewdat$weekdays
 wind<-which(grepl(paste(c("Sonntag", "Samstag"), collapse = "|"),mynewdat$weekdays))
 nowind<-which(!grepl(paste(c("Sonntag", "Samstag"), collapse = "|"),mynewdat$weekdays))
 
-#mynewdat$daytype[wind]<-"weekend"
+mynewdat$daytype[wind]<-"weekend"
 mynewdat$daytype[nowind]<-"work"
 
 chdat<-mynewdat[which(mynewdat$country_region_code=="CH")]
 df<-chdat
-#write.table(df, sep=",", file = "C:\\Users\\Stephan\\Documents\\mobility\\google_mobility_change_CH.csv", row.names=F)
 write.table(df, sep=",", file = "C:\\Users\\Stephan\\Documents\\mobility\\google_mobility_change_CH.csv", row.names=F)
+
 
 temp <- tempfile(fileext = ".zip")
 url<-"https://www.covid19.admin.ch/api/data/20201224-t8p3cqqp/downloads/sources-csv.zip"
@@ -29,5 +31,4 @@ cases <- read.table(con, header=T, sep=",")
 con <- unz(temp, "data/COVID19Death_geoRegion_AKL10_w.csv")
 deaths <- read.table(con, header=T, sep=",")
 coviddf<-bind_cols(cases, deaths)
-#write.table(coviddf, sep=",", row.names = F, file = "C:\\Users\\Stephan\\Documents\\mobility\\cases_CH.csv")
-write.table(coviddf, sep=",", row.names = F, file = "cases_CH.csv")
+write.table(coviddf, sep=",", row.names = F, file = "C:\\Users\\Stephan\\Documents\\mobility\\cases_CH.csv")
