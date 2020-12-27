@@ -5,21 +5,33 @@ library(data.table)
 library(ggplot2)
 library(dplyr)
 
-source("covid_cases_download_CH_data.R")
-#df<-read.table("google_mobility_change_CH.csv",sep=",")
+
+#df<-fread("google_mobility_change_CH.csv")
 # df<-df[which(df$iso_3166_2_code==""),]
 df$kanton<-gsub("CH-","", df$iso_3166_2_code)
 df$kanton[which(df$kanton=="")]<-"CH"
 # df$kanton[which(df$kanton=="")]<-"CHFL"
-gp<-ggplot(data=df, aes(x=date,
+gp<-ggplot(data=df, aes(x=as.Date(date),
                         color=daytype))+
     # scale_color_manual(values=c("red","blue"))+
-    scale_x_date(date_breaks = "1 month", date_labels = "%d %m")+
+    scale_x_date(date_breaks = "1 month", 
+                 date_labels = "%d %m")+
     # facet_grid(rows = vars(iso_3166_2_code))+
     facet_grid(rows = vars(country_region_code))+
-    ggtitle(max(df$date, na.rm=T))
+    ggtitle(max(as.Date(df$date), na.rm=T))+
+    xlab("date")
 
-#coviddf<-read.table("cases_CH.csv", sep=",")
+# gpmobil1<-gp+geom_point(aes(y=workplaces_percent_change_from_baseline))
+# gpmobil2<-gp+geom_point(aes(y=retail_and_recreation_percent_change_from_baseline))
+# gpmobil3<-gp+geom_point(aes(y=grocery_and_pharmacy_percent_change_from_baseline))
+# 
+# gpmobil4<-gp+geom_point(aes(y=parks_percent_change_from_baseline))
+# gpmobil5<-gp+geom_point(aes(y=transit_stations_percent_change_from_baseline))
+# gpmobil6<-gp+geom_point(aes(y=residential_percent_change_from_baseline))
+
+# 
+
+#coviddf<-fread("cases_CH.csv")
 # coviddf$geoRegion<-gsub("CHFL","FL",coviddf$geoRegion)
 
 
@@ -41,7 +53,7 @@ ui <- fluidPage(
             
             selectInput("country",
                         "country",
-                        choices=levels(as.factor(df$country_region)),
+                        choices=levels(as.factor(as.character(df$country_region))),
                         multiple = T,
                         selected = c("Switzerland"),
                         selectize = F),
@@ -54,7 +66,7 @@ ui <- fluidPage(
                         "kanton",
                         choices=levels(as.factor(coviddf$geoRegion)),
                         multiple = F,
-                        selected = c("CH"),
+                        # selected = c("CH"),
                         selectize = F),
             checkboxInput("inzidenz", "inzidenz?",value = F)
         ),
@@ -133,7 +145,7 @@ server <- function(input, output) {
         
         
         
-        gp2<-ggplot(data=df, aes(x=date,
+        gp2<-ggplot(data=df, aes(x=as.Date(date),
                                 color=daytype))+
             scale_color_manual(values=c("red","blue"))+
             scale_x_date( date_labels = "%W",
@@ -142,7 +154,7 @@ server <- function(input, output) {
                          # limits=as.Date(c("2020-01-01","2020-12-31", format="%W")))+
             # facet_grid(rows = vars(country_region_code))+
             ylab("deviation from baseline")+
-            ggtitle(paste(input$country,max(df$date, na.rm=T), input$parameter))+
+            ggtitle(paste(input$country,max(as.Date(df$date), na.rm=T), input$parameter))+
             theme(legend.position = "top", axis.title.x = element_blank())
         # 
          plot_grid(gp2+geom_point(aes(y=get(input$parameter))),

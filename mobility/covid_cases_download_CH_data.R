@@ -18,7 +18,7 @@ nowind<-which(!grepl(paste(c("Sonntag", "Samstag"), collapse = "|"),mynewdat$wee
 mynewdat$daytype[wind]<-"weekend"
 mynewdat$daytype[nowind]<-"work"
 
-chdat<-mynewdat[which(mynewdat$country_region_code=="CH")]
+chdat<-mynewdat[which(mynewdat$country_region_code=="CH"),]
 df<-chdat
 write.table(df, sep=",", file = "C:\\Users\\Stephan\\Documents\\mobility\\google_mobility_change_CH.csv", row.names=F)
 
