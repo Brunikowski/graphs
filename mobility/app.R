@@ -5,7 +5,7 @@ library(data.table)
 library(ggplot2)
 library(dplyr)
 
-
+source("covid_cases_download_CH_data.R")
 df<-fread("google_mobility_change_CH.csv")
 # df<-df[which(df$iso_3166_2_code==""),]
 df$kanton<-gsub("CH-","", df$iso_3166_2_code)
