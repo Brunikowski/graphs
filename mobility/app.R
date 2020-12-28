@@ -5,7 +5,7 @@ library(data.table)
 library(ggplot2)
 library(dplyr)
 
-#source("covid_cases_download_CH_data.R")
+source("covid_cases_download_CH_data.R")
 
 df<-read.table("google_mobility_change_CH.csv",sep=",", header=T)
 # df<-df[which(df$iso_3166_2_code==""),]
