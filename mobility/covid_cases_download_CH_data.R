@@ -14,7 +14,7 @@ mynewdat$daytype[nowind]<-"work"
 chdat<-mynewdat[which(mynewdat$country_region_code=="CH"),]
 df<-chdat
 #write.table(df, sep=",", file = "C:\\Users\\Stephan\\Documents\\mobility\\google_mobility_change_CH.csv", row.names=F)
-write.table(df, sep=",", file = "C"google_mobility_change_CH.csv", row.names=F)
+write.table(df, sep=",", file = "google_mobility_change_CH.csv", row.names=F)
 
 
 temp <- tempfile(fileext = ".zip")
