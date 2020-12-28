@@ -7,11 +7,12 @@ library(dplyr)
 library(cowplot)
 library(shiny)
 
-
+if(winDialog(type="yesno", message = "dowload latest data (takes time)?")=="YES"){
 source("covid_cases_download_CH_data.R")
-#df<-read.table("google_mobility_change_CH.csv",sep=",", header=T)
-#coviddf<-read.table("cases_CH.csv",sep=",", header=T)
-
+  } else {
+df<-read.table("google_mobility_change_CH.csv",sep=",", header=T)
+coviddf<-read.table("cases_CH.csv",sep=",", header=T)
+}
 df$kanton<-gsub("CH-","", df$iso_3166_2_code)
 df$kanton[which(df$kanton=="")]<-"CH"
 # df$kanton[which(df$kanton=="")]<-"CHFL"
