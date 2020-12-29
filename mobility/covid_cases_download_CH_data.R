@@ -18,7 +18,7 @@ chdat<-mynewdat[which(mynewdat$country_region_code=="CH"),]
 df<-chdat
 #write.table(df, sep=",", file = "C:\\Users\\Stephan\\Documents\\mobility\\google_mobility_change_CH.csv", row.names=F)
 write.table(df, sep=",", file = "google_mobility_change_CH.csv", row.names=F)
-write.table(df, sep=",", file = choose.files(caption="choose where to save google mobility data", default=paste0(getwd(),"/google_mobility_change_CH.csv")), row.names=F)
+#write.table(df, sep=",", file = choose.files(caption="choose where to save google mobility data", default=paste0(getwd(),"/google_mobility_change_CH.csv")), row.names=F)
 
 temp <- tempfile(fileext = ".zip")
 url<-"https://www.covid19.admin.ch/api/data/20201224-t8p3cqqp/downloads/sources-csv.zip"
@@ -29,5 +29,5 @@ con <- unz(temp, "data/COVID19Death_geoRegion_AKL10_w.csv")
 deaths <- read.table(con, header=T, sep=",")
 coviddf<-bind_cols(cases, deaths)
 #write.table(coviddf, sep=",", row.names = F, file = "C:\\Users\\Stephan\\Documents\\mobility\\cases_CH.csv")
-#write.table(coviddf, sep=",", row.names = F, file = "cases_CH.csv")
-write.table(coviddf, sep=",", row.names = F, file = choose.files(caption="choose where to save covid cases data", default=paste0(getwd(), "/cases_CH.csv")))
+write.table(coviddf, sep=",", row.names = F, file = "cases_CH.csv")
+#write.table(coviddf, sep=",", row.names = F, file = choose.files(caption="choose where to save covid cases data", default=paste0(getwd(), "/cases_CH.csv")))
