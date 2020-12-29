@@ -5,10 +5,15 @@ library(data.table)
 library(dplyr)
 print(getwd())
 
-mynewdat<-read.table('https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv',sep = ",", header=T)
+print("load google mobility data")
+#mynewdat<-read.table('https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv',sep = ",", header=T)
+mynewdat<-fread('https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv')
+
+print("google mobility data loaded")
+print("sign weekend, work")
 mynewdat$weekdays<-weekdays(as.Date(mynewdat$date))
 mynewdat$daytype<-mynewdat$weekdays
-print(getwd())
+
 
 wind<-which(grepl(paste(c("Sonntag", "Samstag"), collapse = "|"),mynewdat$weekdays))
 nowind<-which(!grepl(paste(c("Sonntag", "Samstag"), collapse = "|"),mynewdat$weekdays))
@@ -16,10 +21,12 @@ mynewdat$daytype[wind]<-"weekend"
 mynewdat$daytype[nowind]<-"work"
 chdat<-mynewdat[which(mynewdat$country_region_code=="CH"),]
 df<-chdat
+print(getwd())
 #write.table(df, sep=",", file = "C:\\Users\\Stephan\\Documents\\mobility\\google_mobility_change_CH.csv", row.names=F)
 write.table(df, sep=",", file = "google_mobility_change_CH.csv", row.names=F)
 #write.table(df, sep=",", file = choose.files(caption="choose where to save google mobility data", default=paste0(getwd(),"/google_mobility_change_CH.csv")), row.names=F)
 
+print("load CG Covid data from BAG")
 temp <- tempfile(fileext = ".zip")
 url<-"https://www.covid19.admin.ch/api/data/20201224-t8p3cqqp/downloads/sources-csv.zip"
 download.file(url = url, temp)
