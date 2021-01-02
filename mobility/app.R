@@ -92,7 +92,7 @@ server <- function(input, output) {
             scale_x_continuous(limits=c(0,max(as.numeric(gsub("2020","",dfcases$datum)))), 
                                expand = expand_scale(mult = 0, add = 0))+
             theme(legend.position = "top")
-        
+    max(as.numeric(gsub("2020","",means$datum)))    
         if (input$inzidenz){
             gp1<-ggplot(means,
                         aes(as.numeric(gsub("2020","",datum))))+xlab("Kalenderwoche")+
