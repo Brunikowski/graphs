@@ -1,18 +1,13 @@
 # install.packages("RCurl")
-rm(list=ls(all.names = T))
+# rm(list=ls(all.names = T))
 # library(RCurl)
 library(data.table)
 library(ggplot2)
 library(dplyr)
-library(cowplot)
-library(shiny)
 
-if(winDialog(type="yesno", message = "dowload latest data (takes time)?")=="YES"){
-source("covid_cases_download_CH_data.R")
-  } else {
+
 df<-read.table("google_mobility_change_CH.csv",sep=",", header=T)
-coviddf<-read.table("cases_CH.csv",sep=",", header=T)
-}
+# df<-df[which(df$iso_3166_2_code==""),]
 df$kanton<-gsub("CH-","", df$iso_3166_2_code)
 df$kanton[which(df$kanton=="")]<-"CH"
 # df$kanton[which(df$kanton=="")]<-"CHFL"
@@ -26,8 +21,25 @@ gp<-ggplot(data=df, aes(x=as.Date(date),
     ggtitle(max(as.Date(df$date), na.rm=T))+
     xlab("date")
 
+# gpmobil1<-gp+geom_point(aes(y=workplaces_percent_change_from_baseline))
+# gpmobil2<-gp+geom_point(aes(y=retail_and_recreation_percent_change_from_baseline))
+# gpmobil3<-gp+geom_point(aes(y=grocery_and_pharmacy_percent_change_from_baseline))
+# 
+# gpmobil4<-gp+geom_point(aes(y=parks_percent_change_from_baseline))
+# gpmobil5<-gp+geom_point(aes(y=transit_stations_percent_change_from_baseline))
+# gpmobil6<-gp+geom_point(aes(y=residential_percent_change_from_baseline))
+
+# 
+
+coviddf<-read.table("cases_CH.csv", sep=",",header=T)
+# coviddf$geoRegion<-gsub("CHFL","FL",coviddf$geoRegion)
 
 
+
+library(cowplot)
+# plot_grid(gpcases, gpdeaths, ncol=1, align="v")
+
+library(shiny)
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -92,7 +104,7 @@ server <- function(input, output) {
             scale_x_continuous(limits=c(0,max(as.numeric(gsub("2020","",dfcases$datum)))), 
                                expand = expand_scale(mult = 0, add = 0))+
             theme(legend.position = "top")
-    max(as.numeric(gsub("2020","",means$datum)))    
+        
         if (input$inzidenz){
             gp1<-ggplot(means,
                         aes(as.numeric(gsub("2020","",datum))))+xlab("Kalenderwoche")+
